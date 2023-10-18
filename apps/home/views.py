@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
+from django.shortcuts import render
 
 
 @login_required(login_url="/login/")
@@ -42,3 +43,31 @@ def pages(request):
     except:
         html_template = loader.get_template('home/page-500.html')
         return HttpResponse(html_template.render(context, request))
+    
+    
+@login_required(login_url="/login/")
+def profile(request):
+    """_summary_
+    Render profile page
+
+    Args:
+        request (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """    
+    return render(request, 'home/profile.html', {})
+
+
+@login_required(login_url="/login/")
+def table(request):
+    """_summary_
+    Render profile page
+
+    Args:
+        request (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """    
+    return render(request, 'home/table.html', {})

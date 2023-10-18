@@ -8,6 +8,7 @@ from apps.home import views
 
 urlpatterns = [
     path('', views.index, name='home'),
-    re_path(r'^.*\.*', views.pages, name='pages'),
+    path('profile/', views.profile, name='profile'),
+    path('table/', views.table, name='table'),
 
 ]
