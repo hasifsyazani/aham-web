@@ -1,22 +1,33 @@
-# -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
-
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
+from apps.home.models import CustomerInfo
+from django.views.generic import ListView, UpdateView
+from django.utils.decorators import method_decorator
+from django.contrib.messages.views import SuccessMessageMixin
+from apps.home.forms import CustomerEditForm
 
 
-@login_required(login_url="/login/")
-def index(request):
-    context = {'segment': 'index'}
+@method_decorator(login_required, name='dispatch')
+class Index(ListView):
+    model = CustomerInfo
+    template_name = 'home/index.html'
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        return context
 
-    html_template = loader.get_template('home/index.html')
-    return HttpResponse(html_template.render(context, request))
+
+@method_decorator(login_required, name='dispatch')
+class EditCustomer(SuccessMessageMixin, UpdateView):
+    model = CustomerInfo
+    form_class = CustomerEditForm
+    template_name = 'home/edit_customer.html'
+    success_message = "Customer has been updated"
+    success_url = reverse_lazy('home')
 
 
 @login_required(login_url="/login/")
