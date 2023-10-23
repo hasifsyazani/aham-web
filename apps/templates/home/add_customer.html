@@ -40,12 +40,15 @@
                   <div class="form-group">
                     <label class="form-control-label" for="input-first-name">Phone no.</label>
                     {{form.phone_no}}
+                    <i style="font-size: x-small;">{{form.phone_no.help_text}}</i>
                   </div>
+                  <span style="color:red">{{ form.phone_no.errors }}</span>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-last-name">Email address</label>
                     {{form.email_address}}
+                    <i style="font-size: x-small;">{{form.email_address.help_text}}</i>
                   </div>
                   <span style="color:red">{{ form.email_address.errors }}</span>
                 </div>
