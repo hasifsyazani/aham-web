@@ -32,16 +32,15 @@
           <div class="card-header border-0">
             <h3 class="mb-0">Customer List</h3>
           </div>
-          {% if messages %}
-            {% for message in messages %}
-            <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
-                <strong>{{message}}</strong>
-                <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
-            </div>                         
-            {% endfor %}
-          {% endif %}
           <!-- Light table -->
           <div class="table-responsive">
+            {% if messages %}
+              {% for message in messages %}
+              <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+                  <strong>{{message}}</strong>
+              </div>                         
+              {% endfor %}
+            {% endif %}
             <table class="table align-items-center table-flush">
               <thead class="thead-light">
                 <tr>
@@ -54,8 +53,8 @@
                 </tr>
               </thead>
               <tbody class="list">
+                {% for object in object_list %}
                 <tr>
-                  {% for object in object_list %}
                   <td>
                     <a href="{% url 'editcust' object.pk %}">
                         <button type="button" style="border: 0px; background-color: transparent"> 
@@ -67,14 +66,19 @@
                   <td>{{object.last_name}}</td>
                   <td>{{object.email_address}}</td>
                   <td>{{object.phone_no}}</td>
-                  <td>{{object.address}}</td>
-                  {% endfor %}
+                  <td>{{object.address|truncatechars:20}}</td>
                 </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>
           <!-- Card footer -->
           <div class="card-footer py-4">
+            <a href="{% url 'addcust' %}">
+              <button type="button" class="btn btn-sm btn-primary">
+                  Add
+              </button>
+            </a>
             <nav aria-label="...">
               <ul class="pagination justify-content-end mb-0">
                 <li class="page-item disabled">
