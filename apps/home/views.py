@@ -15,14 +15,33 @@ from django.db.models import F
 
 @login_required(login_url="/login/")
 def index(request):
+    """_summary_
+    Render mock dashboards from existing template
+
+    Args:
+        request (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     context = {}
     html_template = loader.get_template('home/index.html')
     return HttpResponse(html_template.render(context, request,))
 
 @method_decorator(login_required, name='dispatch')
 class CustomerList(ListView):
+    """_summary_
+    Render list of customers to table
+
+    Args:
+        ListView (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     model = CustomerInfo
     template_name = 'home/table.html'
+    paginate_by = 10
     
     def get_queryset(self):
         return self.model.objects.all().order_by(
@@ -31,6 +50,16 @@ class CustomerList(ListView):
 
 @method_decorator(login_required, name='dispatch')
 class EditCustomer(SuccessMessageMixin, UpdateView):
+    """_summary_
+    Edit form for customer information 
+
+    Args:
+        SuccessMessageMixin (_type_): _description_
+        UpdateView (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     model = CustomerInfo
     form_class = CustomerEditForm
     template_name = 'home/edit_customer.html'
@@ -43,6 +72,16 @@ class EditCustomer(SuccessMessageMixin, UpdateView):
     
 @method_decorator(login_required, name='dispatch')
 class AddCustomer(SuccessMessageMixin, FormView):
+    """_summary_
+    Add form for new customer    
+
+    Args:
+        SuccessMessageMixin (_type_): _description_
+        FormView (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     form_class = CustomerAddForm
     template_name = 'home/add_customer.html'
     success_message = "New customer has been added"
