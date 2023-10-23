@@ -5,12 +5,13 @@ from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from apps.home.models import CustomerInfo
-from django.views.generic import ListView, UpdateView, FormView
+from django.views.generic import ListView, UpdateView, FormView, DeleteView
 from django.utils.decorators import method_decorator
 from django.contrib.messages.views import SuccessMessageMixin
 from apps.home.forms import CustomerEditForm, CustomerAddForm
 import datetime as dt
 from django.db.models import F
+from django.contrib import messages
 
 
 @login_required(login_url="/login/")
@@ -97,6 +98,25 @@ class AddCustomer(SuccessMessageMixin, FormView):
         obj.date_modified = dt.datetime.now()
         obj.save()
         return super().form_valid(form)
+
+@method_decorator(login_required, name='dispatch')   
+class DeleteCustomer(DeleteView):
+    """_summary_
+    Delete form for customer
+
+    Args:
+        DeleteView (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    model = CustomerInfo
+    success_message = "Customer has been removed"
+    success_url = reverse_lazy('listcust')
+    
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(DeleteCustomer, self).delete(request, *args, **kwargs)
 
 
 @login_required(login_url="/login/")

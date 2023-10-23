@@ -12,3 +12,7 @@ urlpatterns = [
     path("", include("apps.authentication.urls")), # Auth routes - login / register
     path("", include("apps.home.urls")),             # UI Kits Html files
 ]
+
+handler404 = "core.error.page_not_found"
+handler500 = "core.error.server_error"
+handler403 = "core.error.permission_denied"

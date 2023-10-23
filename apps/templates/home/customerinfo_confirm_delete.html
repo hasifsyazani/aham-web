@@ -1,0 +1,38 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Profile {% endblock title %}
+
+{% block content %}
+
+<!-- Page content -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-8 order-xl-1">
+      <div class="card">
+        <div class="card-body">
+          <form method = "POST" action="{% url 'delcust' object.pk %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h1>Remove Customer</h1>
+            <p>Are you sure that you want to remove customer "{{object.first_name}} {{object.last_name}}"?</p>
+            <div class="col" style="text-align: center;">
+              <button type="submit" class="btn btn-danger btn-lg mb-0">
+                  Delete
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="center">
+	<form method = "POST" action="{% url 'delcust' object.pk %}" enctype="multipart/form-data" class="card">
+		{% csrf_token %}
+		
+	</form>
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}
