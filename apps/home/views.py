@@ -12,13 +12,20 @@ from apps.home.forms import CustomerEditForm
 
 
 @method_decorator(login_required, name='dispatch')
-class Index(ListView):
+class CustomerList(ListView):
     model = CustomerInfo
-    template_name = 'home/index.html'
+    template_name = 'home/table.html'
     
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         return context
+    
+    
+@login_required(login_url="/login/")
+def index(request):
+    context = {}
+    html_template = loader.get_template('home/index.html')
+    return HttpResponse(html_template.render(context, request,))
 
 
 @method_decorator(login_required, name='dispatch')

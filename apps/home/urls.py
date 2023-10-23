@@ -1,16 +1,12 @@
-# -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
-
-from django.urls import path, re_path
+from django.urls import path
 from apps.home import views
 from . import views
-from .views import Index, EditCustomer
+from .views import EditCustomer, CustomerList
 
 urlpatterns = [
-    path("", Index.as_view(), name="home"),
-    path("edit-customer/<int:pk>", EditCustomer.as_view(), name="editcust"),
+    path("", views.index, name="home"),
+    path("list-customer/", CustomerList.as_view(), name="listcust"),
+    path("list-customer/edit-customer/<int:pk>", EditCustomer.as_view(), name="editcust"),
     path('profile/', views.profile, name='profile'),
     path('table/', views.table, name='table'),
 
